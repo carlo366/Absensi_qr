@@ -1,31 +1,46 @@
 <?php
 require_once __DIR__ . '/../Services/AuthService.php';
 require_once __DIR__ . '/../Helpers/View.php';
-require_once __DIR__ . '/../Helpers/Response.php';
+require_once __DIR__ . '/../Helpers/Redirect.php';
 
-class AuthController {
-
-    private $service;
-
-    public function __construct() {
-        $this->service = new AuthService();
-    }
-
-    public function showLogin() {
+class AuthController
+{
+    public function loginPage()
+    {
         View::render('auth/login');
     }
 
-    public function login() {
+    public function login()
+    {
         try {
-            $this->service->login($_POST['username'], $_POST['password']);
-            Response::redirect('/dashboard', 'Login berhasil', 'success');
+            (new AuthService)->login($_POST['username'], $_POST['password']);
+            Redirect::to('/dashboard', 'Login berhasil');
         } catch (Exception $e) {
-            Response::redirect('/login', $e->getMessage(), 'error');
+            Redirect::to('/login', $e->getMessage(), 'error');
         }
     }
 
-    public function logout() {
+    public function logout()
+    {
+        // hapus semua data session
+        $_SESSION = [];
+
+        // hapus cookie session
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(
+                session_name(),
+                '',
+                time() - 42000,
+                $params["path"],
+                $params["domain"],
+                $params["secure"],
+                $params["httponly"]
+            );
+        }
+
         session_destroy();
-        Response::redirect('/login', 'Logout berhasil', 'success');
+
+        Redirect::to('/login', 'Logout berhasil');
     }
 }

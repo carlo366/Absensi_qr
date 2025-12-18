@@ -15,8 +15,9 @@ class App
         $uri = str_replace($base, '', $uri) ?: '/login';
 
         switch ($uri) {
+
             case '/login':
-                GuestMiddleware::handle();
+                GuestMiddleware::handle();   // 🔒
                 (new AuthController)->loginPage();
                 break;
 
@@ -25,14 +26,13 @@ class App
                 break;
 
             case '/dashboard':
-                AuthMiddleware::handle();
+                AuthMiddleware::handle();    // 🔒
                 (new DashboardController)->index();
                 break;
 
             case '/logout':
                 (new AuthController)->logout();
                 break;
-
             default:
                 http_response_code(404);
                 echo "404 Route not found";
