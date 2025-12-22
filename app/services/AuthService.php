@@ -3,31 +3,26 @@ require_once __DIR__ . '/../Repositories/UserRepository.php';
 
 class AuthService
 {
-    private $repo;
+    private $userRepo;
 
     public function __construct()
     {
-        $this->repo = new UserRepository();
+        $this->userRepo = new UserRepository();
     }
 
     public function login($username, $password)
     {
-        $user = $this->repo->findByUsername($username);
+        $user = $this->userRepo->findByUsername($username);
 
-        if (!$user) {
-            throw new Exception("User tidak ditemukan");
+        if (!$user || !password_verify($password, $user['password'])) {
+            throw new Exception('Username atau password salah');
         }
 
-        if (!password_verify($password, $user['password'])) {
-            throw new Exception("Password salah");
-        }
-
-        // 🔐 AMAN
         session_regenerate_id(true);
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['role'] = $user['role'];
 
-        $_SESSION['AUTH'] = true;              // FLAG UTAMA
-        $_SESSION['USER_ID'] = $user['id'];
-        $_SESSION['ROLE'] = $user['role'];
-        $_SESSION['LOGIN_AT'] = time();
+        return $user;
     }
 }

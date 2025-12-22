@@ -40,7 +40,7 @@
     <div class="card">
         <h2 class="text-center text-primary mb-4">Login Absensi QR</h2>
 
-        <form method="POST" action="/absensi_qr/login-process">
+        <form method="POST" action="/absensi_qr/login">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username" required>
