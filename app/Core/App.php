@@ -87,6 +87,9 @@ class App
             case 'absensi/process':
                 (new AbsensiController())->processScan();
                 break;
+            case 'absensi/process-validate':
+                (new AbsensiController())->processValidate();
+                break;
 
             case 'absensi/riwayat':
                 AuthMiddleware::handle();
