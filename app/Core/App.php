@@ -84,9 +84,9 @@ class App
                 (new AbsensiController())->scan();
                 break;
 
-            case 'absensi/process':
-                (new AbsensiController())->processScan();
-                break;
+            // case 'absensi/process':
+                // (new AbsensiController())->processScan();
+                // break;
             case 'absensi/process-validate':
                 (new AbsensiController())->processValidate();
                 break;

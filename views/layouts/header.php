@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <title>Absensi QR</title>
@@ -34,8 +33,17 @@
         }
     </style>
 </head>
+<body>  
 
-<body>
+<?php if (isset($_SESSION['flash'])): ?>
+    <div class="position-fixed top-0 start-50 translate-middle-x mt-3"
+         style="z-index: 2000; min-width: 320px; max-width: 600px;">
+        <div class="alert alert-<?= $_SESSION['flash']['type'] ?> alert-dismissible fade show shadow">
+            <?= htmlspecialchars($_SESSION['flash']['message']) ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    </div>
+<?php unset($_SESSION['flash']); endif; ?>
 
-    <div class="container-fluid">
-        <div class="row">
+<div class="container-fluid">
+    <div class="row">
